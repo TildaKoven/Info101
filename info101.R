@@ -24,7 +24,7 @@ read.csv("woa.csv")
 #confused.
 
 # P4 Re-write the call to read.csv() to avoid the error in P3.
-read.csv("woa.csv", skip = 1)
+better_woa.csv <- read.csv("woa.csv", skip = 1)
 #row 1 was confusing the computer
 # Fix the column names ----------------------------------------------------
 
@@ -40,15 +40,15 @@ depths <- c(
 
 # P6 Create a vector called woa_colnames with clean names for all 104 columns.
 # Make them the column names of your WOA data frame.
-woa_colnames <- depths
-
-
+woa_colnames <- c("latitude", "longitude", paste0("Depth", depths))
+colnames(better_woa.csv) <- woa_colnames
+View(better_woa.csv)
 # Analyzing wide-format data ----------------------------------------------
 
 # P7 What is the mean water temperature globally in the twilight zone (200-1000m
 # depth)?
 woa <- read.csv("woa.csv", skip = 1)
-woa_twilight <- woa[ , 25:47]
+woa_twilight <- woa[ , 27:49]
 sum_woa_twilight <- sum(woa_twilight, na.rm = TRUE)
 mean_temps_twilight <- (sum_woa_twilight)/((47-25)*(40566-3))
 mean_temps_twilight
@@ -57,6 +57,12 @@ mean_temps_twilight
 mean_temp_twilight <- (sum_woa_twilight)/(nrow(woa_twilight)*ncol(woa_twilight))
 mean_temp_twilight
 #6.425818
+
+woa <- read.csv("woa.csv", skip = 1)
+woa_twilight <- woa[ , 27:49]
+sum_woa_twilight <- sum(woa_twilight, na.rm = TRUE)
+num_measurements <- (sum(!is.na(woa[, 27:49])))
+sum_woa_twilight/num_measurements
 
 nrow(woa_twilight)*ncol(woa_twilight)
 (47-25)*(40566-3)
@@ -96,7 +102,7 @@ ggsave("mariana_temp_depth.png")
 #change the most?
 #The temperature at the surface is 28.65 Celsius. In the deepest parts, the
 #temperature is 1.53 Celsius. The temperature changes the most in the top 450 ft.
-#This makes sense because when I scuba dive, the water gets really cold quite fast.
+#This makes sense because when I scuba dive, the water gets really cold quite fast.4
 
 # ggplot is a tool for making figures, you'll learn its details in COMM101
 ggplot(mariana_temps, aes(temp_c, depth_m)) +
